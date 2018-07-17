@@ -9,6 +9,8 @@ class Text(TextWidget):
         description = "[Text] object with text \"" + str(text) + "\""
         
         self._text = str(text)
+        self._multiline = multiline
+        
         if multiline:
             tk = Message(master.tk, text=text, fg=utils.convert_color(color), bg=utils.convert_color(bg), font=(font, size))
         else:
@@ -16,7 +18,7 @@ class Text(TextWidget):
 
         super(Text, self).__init__(master, tk, description, grid, align, visible, enabled)
 
-        if bg:
+        if bg is not None:
             self.bg = bg
         
     # PROPERTIES
@@ -41,7 +43,36 @@ class Text(TextWidget):
     def size(self, size):
         self.text_size = size
 
-        
+    @property
+    def height(self):
+        if self._multiline:
+            utils.error_format("Cannot get the height of multiline [Text] object")
+            return None
+        else:
+            return super(Text, self.__class__).height.fget(self)
+
+    @height.setter
+    def height(self, value):
+        if self._multiline:
+            utils.error_format("Cannot change the height of a multiline [Text] object")
+        else:
+            super(Text, self.__class__).height.fset(self, value)
+
+    @property
+    def enabled(self):
+        if self._multiline:
+            utils.error_format("Cannot enable/disable a multiline [Text] object")
+            return None
+        else:
+            return super(Text, self.__class__).enabled.fget(self)
+
+    @enabled.setter
+    def enabled(self, value):
+        if self._multiline:
+            utils.error_format("Cannot enable/disable a multiline [Text] object")
+        else:
+            super(Text, self.__class__).enabled.fset(self, value)
+
     # METHODS
     # -------------------------------------------
 

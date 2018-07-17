@@ -61,7 +61,7 @@ class TextBox(TextWidget):
             self._height = value
             self.tk.config(height=value)
         else:
-            utils.error_format("Cannot change the height of a single line TextBox{}".format(self.description))
+            utils.error_format("Cannot change the height of a single line [TextBox] object")
         
 
     # METHODS

@@ -54,18 +54,17 @@ class EnableMixin():
     @enabled.setter
     def enabled(self, value):
         if value:
-            self.enable()
+            self._set_tk_config("state", "normal")
         else:
-            self.disable()
+            self._set_tk_config("state", "disabled")
     
     def disable(self):
         """Disable the widget."""
-        self._set_tk_config("state", "disabled")
+        self.enabled = False
         
     def enable(self):
         """Enable the widget."""
-        self._set_tk_config("state", "normal")
-        
+        self.enabled = True
 
 class FocusMixin():
     def focus(self):
