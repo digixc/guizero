@@ -300,7 +300,38 @@ def auto_pack(widget, master, grid, align):
         # If the master widget specifies grid, don't pack, otherwise auto pack
         # You always pack the tk object NOT the guizero object
         if master._layout_manager != "grid":
-            widget.tk.pack()
+
+            if align is None:
+                widget.tk.pack()
+            else:
+                anchor = None
+                align_this = None
+                
+                if "left" in align:
+                    align_this = "left"
+                    
+                elif "right" in align:
+                    align_this = "right"
+                    
+                elif align == "top" or align == "bottom":
+                    align_this = align
+                
+                if align_this == "left" or align_this == "right":
+                    if "top" in align:
+                        anchor = "n"
+                    elif "bottom" in align:
+                        anchor = "s"
+
+                widget.tk.pack(anchor=anchor, side=align_this)
+                # directions = {"top": "n", "bottom": "s", "left": "w", "right": "e", "top left": "nw", "top right": "ne"}
+                # align_this = "W" # Default to align left if they didn't specify something valid
+
+                # try:
+                #     align_this = directions[align]
+                # except KeyError:
+                #     error_format("Invalid align value ('"+ str(align) +"') for " + widget.description +
+                #     "\nShould be: top, bottom, left or right")
+                # widget.tk.pack(anchor=align_this)
         else:
 
             # If they failed to specify grid coords
